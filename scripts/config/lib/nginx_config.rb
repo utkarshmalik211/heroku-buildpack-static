@@ -30,7 +30,7 @@ class NginxConfig
     json["proxies"].each do |loc, hash|
       evaled_origin = NginxConfigUtil.interpolate(hash['origin'], ENV)
       uri           = URI(evaled_origin)
-
+      json["proxies"][loc]["headers"] = hash["headers"] || DEFAULT[:headers]
       json["proxies"][loc]["name"] = "upstream_endpoint_#{index}"
       cleaned_path = uri.path
       cleaned_path.chop! if cleaned_path.end_with?("/")
